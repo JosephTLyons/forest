@@ -1,6 +1,4 @@
 import gleam/int
-import gleam/list
-import gleam/option
 import gleeunit/should
 import forest/binary_search_tree as bst
 

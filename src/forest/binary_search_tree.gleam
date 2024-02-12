@@ -1,6 +1,5 @@
 import gleam/option.{type Option, None, Some}
 import gleam/order
-import gleam/result
 import gleam/list
 
 // TODO
