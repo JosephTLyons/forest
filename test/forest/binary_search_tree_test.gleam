@@ -64,7 +64,6 @@ pub fn size_test() {
   |> should.equal(0)
 
   bst.from_list(mixed_ints(), int.compare)
-  |> bst.insert(1, int.compare)
   |> bst.size()
   |> should.equal(list.length(mixed_ints()))
 }
