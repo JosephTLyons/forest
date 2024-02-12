@@ -107,15 +107,15 @@ pub fn contains(
 pub fn size(tree: Node(a)) -> Int {
   case tree.state {
     Some(state) -> {
-      let left = case state.left {
-        Some(node) -> size(node)
-        None -> 0
-      }
+      let left =
+        state.left
+        |> option.map(size)
+        |> option.unwrap(0)
 
-      let right = case state.right {
-        Some(node) -> size(node)
-        None -> 0
-      }
+      let right =
+        state.right
+        |> option.map(size)
+        |> option.unwrap(0)
 
       1 + left + right
     }
