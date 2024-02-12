@@ -4,10 +4,12 @@ import gleam/list
 
 // TODO
 // Finish methods
-//    use `set`'s interface
+//     use `set`'s interface
 // Order of api and tests
 // Do we really want to have to pass in a `compare` function into the public api?
 // Where can we refactor?
+// Implement binary search tree with a binary tree?
+//     Impelemnt binary tree with a tree?
 
 pub opaque type NodeState(a) {
   NodeState(value: a, left: Option(Node(a)), right: Option(Node(a)))
