@@ -60,18 +60,37 @@ pub fn contains_test() {
   |> should.equal(False)
 }
 
-// pub fn count_test() {
-//   let tree =
-//     bst.new()
-//     |> bst.insert(6)
-//     |> bst.insert(7)
-//     |> bst.insert(0)
-//     |> bst.insert(5)
+pub fn size_test() {
+  let tree = bst.new()
 
-//   tree
-//   |> bst.count()
-//   |> should.equal(5)
-// }
+  tree
+  |> bst.size()
+  |> should.equal(0)
+
+  let tree =
+    tree
+    |> bst.insert(1, int.compare)
+
+  tree
+  |> bst.size()
+  |> should.equal(1)
+
+  let tree =
+    tree
+    |> bst.insert(0, int.compare)
+
+  tree
+  |> bst.size()
+  |> should.equal(2)
+
+  let tree =
+    tree
+    |> bst.insert(2, int.compare)
+
+  tree
+  |> bst.size()
+  |> should.equal(3)
+}
 
 pub fn to_list_test() {
   let items =

@@ -103,25 +103,24 @@ pub fn contains(
 //   0
 // }
 
-// pub fn count(tree: Node) -> a {
-//   io.debug(tree)
-//   let left = case tree.left {
-//     Some(node) -> count(node)
-//     None -> 0
-//   }
+pub fn size(tree: Node(a)) -> Int {
+  case tree.state {
+    Some(state) -> {
+      let left = case state.left {
+        Some(node) -> size(node)
+        None -> 0
+      }
 
-//   let right = case tree.right {
-//     Some(node) -> count(node)
-//     None -> 0
-//   }
+      let right = case state.right {
+        Some(node) -> size(node)
+        None -> 0
+      }
 
-//   io.debug("left")
-//   io.debug(left)
-//   io.debug("left")
-//   io.debug(right)
-
-//   1 + left + right
-// }
+      1 + left + right
+    }
+    None -> 0
+  }
+}
 
 pub fn to_list(tree: Node(a)) -> List(a) {
   case tree.state {
