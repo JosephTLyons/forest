@@ -33,14 +33,11 @@ pub fn insert(
       case compare(state.value, value) {
         order.Lt ->
           Node(Some(
-            NodeState(
-              ..state,
-              right: update_subtree(state.right, value, compare),
-            ),
+            NodeState(..state, right: update_tree(state.right, value, compare)),
           ))
         order.Gt ->
           Node(Some(
-            NodeState(..state, left: update_subtree(state.left, value, compare)),
+            NodeState(..state, left: update_tree(state.left, value, compare)),
           ))
         order.Eq -> tree
       }
@@ -49,19 +46,24 @@ pub fn insert(
   }
 }
 
-fn update_subtree(
-  subtree: Option(Node(a)),
+fn update_tree(
+  tree: Option(Node(a)),
   value: a,
   compare: fn(a, a) -> order.Order,
 ) -> Option(Node(a)) {
-  case subtree {
+  case tree {
     Some(node) -> Some(insert(node, value, compare))
     None -> Some(Node(Some(NodeState(value: value, left: None, right: None))))
   }
 }
 
-// pub fn remove(tree: Node, value: a) -> Node {
-//   todo
+// pub fn delete(tree: Node(a), value: a) -> Node(a) {
+//   case tree.state {
+//     Some(node) -> {
+//       todo
+//     }
+//     None -> tree
+//   }
 // }
 
 pub fn contains(
