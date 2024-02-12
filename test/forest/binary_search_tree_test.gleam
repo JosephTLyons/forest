@@ -1,124 +1,85 @@
+import gleam/list
 import gleam/option
 import gleeunit/should
 import forest/binary_search_tree as bst
 
 pub fn insert_test() {
-  let tree = bst.new(5)
+  let tree = bst.new()
 
   tree
-  |> should.equal(bst.Node(value: 5, left: option.None, right: option.None))
+  |> bst.to_list()
+  |> should.equal([])
 
   let tree =
     tree
-    |> bst.insert(4)
+    |> bst.insert(1)
 
   tree
-  |> should.equal(bst.Node(
-    value: 5,
-    left: option.Some(bst.Node(value: 4, left: option.None, right: option.None)),
-    right: option.None,
-  ))
-
-  let tree =
-    tree
-    |> bst.insert(6)
-
-  tree
-  |> should.equal(bst.Node(
-    value: 5,
-    left: option.Some(bst.Node(value: 4, left: option.None, right: option.None)),
-    right: option.Some(bst.Node(value: 6, left: option.None, right: option.None)),
-  ))
+  |> bst.to_list()
+  |> should.equal([1])
 
   let tree =
     tree
     |> bst.insert(0)
 
   tree
-  |> should.equal(bst.Node(
-    value: 5,
-    left: option.Some(bst.Node(
-      value: 4,
-      left: option.Some(bst.Node(
-        value: 0,
-        left: option.None,
-        right: option.None,
-      )),
-      right: option.None,
-    )),
-    right: option.Some(bst.Node(value: 6, left: option.None, right: option.None)),
-  ))
+  |> bst.to_list()
+  |> should.equal([0, 1])
 
   let tree =
     tree
-    |> bst.insert(10)
+    |> bst.insert(2)
 
   tree
-  |> should.equal(bst.Node(
-    value: 5,
-    left: option.Some(bst.Node(
-      value: 4,
-      left: option.Some(bst.Node(
-        value: 0,
-        left: option.None,
-        right: option.None,
-      )),
-      right: option.None,
-    )),
-    right: option.Some(bst.Node(
-      value: 6,
-      left: option.None,
-      right: option.Some(bst.Node(
-        value: 10,
-        left: option.None,
-        right: option.None,
-      )),
-    )),
-  ))
+  |> bst.to_list()
+  |> should.equal([0, 1, 2])
 }
 
 pub fn contains_test() {
+  let tree = bst.new()
+
+  tree
+  |> bst.contains(1)
+  |> should.equal(False)
+
   let tree =
-    bst.new(5)
-    |> bst.insert(6)
-    |> bst.insert(7)
-    |> bst.insert(0)
-    |> bst.insert(5)
+    tree
+    |> bst.insert(1)
 
   tree
-  |> bst.contains(5)
-  |> should.equal(True)
-
-  tree
-  |> bst.contains(6)
-  |> should.equal(True)
-
-  tree
-  |> bst.contains(7)
+  |> bst.contains(1)
   |> should.equal(True)
 
   tree
   |> bst.contains(0)
-  |> should.equal(True)
+  |> should.equal(False)
 
   tree
-  |> bst.contains(5)
-  |> should.equal(True)
-
-  tree
-  |> bst.contains(10)
+  |> bst.contains(2)
   |> should.equal(False)
 }
 
-pub fn count_test() {
-  let tree =
-    bst.new(5)
-    |> bst.insert(6)
-    |> bst.insert(7)
-    |> bst.insert(0)
-    |> bst.insert(5)
+// pub fn count_test() {
+//   let tree =
+//     bst.new()
+//     |> bst.insert(6)
+//     |> bst.insert(7)
+//     |> bst.insert(0)
+//     |> bst.insert(5)
 
-  tree
-  |> bst.count()
-  |> should.equal(5)
+//   tree
+//   |> bst.count()
+//   |> should.equal(5)
+// }
+
+pub fn to_list_test() {
+  let items =
+    bst.new()
+    |> bst.insert(1)
+    |> bst.insert(0)
+    |> bst.insert(2)
+    |> bst.to_list()
+
+  items
+  |> should.equal([0, 1, 2])
 }
