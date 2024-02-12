@@ -133,21 +133,21 @@ pub fn to_list_test() {
 pub fn min_test() {
   bst.new()
   |> bst.min()
-  |> should.equal(Error(Nil))
+  |> should.equal(option.None)
 
   bst.from_list(mixed_ints(), int.compare)
   |> bst.min()
-  |> should.equal(Ok(min_int()))
+  |> should.equal(option.Some(min_int()))
 }
 
 pub fn max_test() {
   bst.new()
   |> bst.max()
-  |> should.equal(Error(Nil))
+  |> should.equal(option.None)
 
   bst.from_list(mixed_ints(), int.compare)
   |> bst.max()
-  |> should.equal(Ok(max_int()))
+  |> should.equal(option.Some(max_int()))
 }
 
 fn mixed_ints() -> List(Int) {

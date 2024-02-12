@@ -199,24 +199,22 @@ pub fn to_list(node: Node(a)) -> List(a) {
   }
 }
 
-pub fn min(node: Node(a)) -> Result(a, Nil) {
-  case node.state {
-    Some(state) -> {
-      state.left
-      |> option.map(min)
-      |> option.unwrap(Ok(state.value))
-    }
-    None -> Error(Nil)
-  }
+pub fn min(node: Node(a)) -> option.Option(a) {
+  node.state
+  |> option.map(fn(state) {
+    state.left
+    |> option.map(min)
+    |> option.unwrap(Some(state.value))
+  })
+  |> option.flatten()
 }
 
-pub fn max(node: Node(a)) -> Result(a, Nil) {
-  case node.state {
-    Some(state) -> {
-      state.right
-      |> option.map(max)
-      |> option.unwrap(Ok(state.value))
-    }
-    None -> Error(Nil)
-  }
+pub fn max(node: Node(a)) -> option.Option(a) {
+  node.state
+  |> option.map(fn(state) {
+    state.right
+    |> option.map(max)
+    |> option.unwrap(Some(state.value))
+  })
+  |> option.flatten()
 }
