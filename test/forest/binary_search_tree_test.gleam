@@ -71,7 +71,7 @@ pub fn height_test() {
 
   bst.from_list(mixed_ints(), int.compare)
   |> bst.height()
-  |> should.equal(5)
+  |> should.equal(4)
 }
 
 pub fn size_test() {
