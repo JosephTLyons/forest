@@ -25,11 +25,11 @@ pub fn new() -> Node(a) {
 }
 
 pub fn insert(
-  tree: Node(a),
+  node: Node(a),
   value: a,
   compare: fn(a, a) -> order.Order,
 ) -> Node(a) {
-  case tree.state {
+  case node.state {
     Some(state) ->
       case compare(state.value, value) {
         order.Lt ->
@@ -46,7 +46,7 @@ pub fn insert(
               left: Some(build_subtree(state.left, value, compare)),
             ),
           ))
-        order.Eq -> tree
+        order.Eq -> node
       }
     None ->
       Node(Some(NodeState(value: value, left: option.None, right: option.None)))
@@ -54,31 +54,31 @@ pub fn insert(
 }
 
 fn build_subtree(
-  subtree: Option(Node(a)),
+  node: Option(Node(a)),
   value: a,
   compare: fn(a, a) -> order.Order,
 ) -> Node(a) {
-  case subtree {
+  case node {
     Some(node) -> insert(node, value, compare)
     None -> Node(Some(NodeState(value: value, left: None, right: None)))
   }
 }
 
-// pub fn delete(tree: Node(a), value: a) -> Node(a) {
-//   case tree.state {
+// pub fn delete(node: Node(a), value: a) -> Node(a) {
+//   case node.state {
 //     Some(node) -> {
 //       todo
 //     }
-//     None -> tree
+//     None -> node
 //   }
 // }
 
 pub fn search(
-  tree: Node(a),
+  node: Node(a),
   value: a,
   compare: fn(a, a) -> order.Order,
 ) -> option.Option(Node(a)) {
-  case tree.state {
+  case node.state {
     Some(state) ->
       case compare(state.value, value) {
         order.Lt ->
@@ -89,36 +89,36 @@ pub fn search(
           state.left
           |> option.map(fn(node) { search(node, value, compare) })
           |> option.unwrap(None)
-        order.Eq -> Some(tree)
+        order.Eq -> Some(node)
       }
     None -> None
   }
 }
 
 pub fn contains(
-  tree: Node(a),
+  node: Node(a),
   value: a,
   compare: fn(a, a) -> order.Order,
 ) -> Bool {
-  tree
+  node
   |> search(value, compare)
   |> option.is_some()
 }
 
-// pub fn path(tree: Node, value: a) -> Result(List(a), Nil) {
+// pub fn path(node: Node, value: a) -> Result(List(a), Nil) {
 //   Error(Nil)
 // }
 
-// pub fn debug_print(tree: Node) {
+// pub fn debug_print(node: Node) {
 //   todo
 // }
 
-// pub fn balance(tree: Node) -> Node {
+// pub fn balance(node: Node) -> Node {
 //   todo
 // }
 
-pub fn height(tree: Node(a)) -> Int {
-  case tree.state {
+pub fn height(node: Node(a)) -> Int {
+  case node.state {
     Some(state) -> {
       let left =
         state.left
@@ -140,8 +140,8 @@ pub fn height(tree: Node(a)) -> Int {
 //   0
 // }
 
-pub fn size(tree: Node(a)) -> Int {
-  case tree.state {
+pub fn size(node: Node(a)) -> Int {
+  case node.state {
     Some(state) -> {
       let left =
         state.left
@@ -160,27 +160,27 @@ pub fn size(tree: Node(a)) -> Int {
 }
 
 pub fn from_list(items: List(a), compare: fn(a, a) -> order.Order) -> Node(a) {
-  let tree = new()
+  let node = new()
   case items {
-    [] -> tree
-    items -> do_from_list(tree, items, compare)
+    [] -> node
+    items -> do_from_list(node, items, compare)
   }
 }
 
 fn do_from_list(
-  tree: Node(a),
+  node: Node(a),
   items: List(a),
   compare: fn(a, a) -> order.Order,
 ) -> Node(a) {
   case items {
-    [] -> tree
+    [] -> node
     [first, ..items] ->
-      do_from_list(insert(tree, first, compare), items, compare)
+      do_from_list(insert(node, first, compare), items, compare)
   }
 }
 
-pub fn to_list(tree: Node(a)) -> List(a) {
-  case tree.state {
+pub fn to_list(node: Node(a)) -> List(a) {
+  case node.state {
     Some(state) -> {
       let left =
         state.left
@@ -199,8 +199,8 @@ pub fn to_list(tree: Node(a)) -> List(a) {
   }
 }
 
-pub fn min(tree: Node(a)) -> Result(a, Nil) {
-  case tree.state {
+pub fn min(node: Node(a)) -> Result(a, Nil) {
+  case node.state {
     Some(state) -> {
       state.left
       |> option.map(min)
@@ -210,8 +210,8 @@ pub fn min(tree: Node(a)) -> Result(a, Nil) {
   }
 }
 
-pub fn max(tree: Node(a)) -> Result(a, Nil) {
-  case tree.state {
+pub fn max(node: Node(a)) -> Result(a, Nil) {
+  case node.state {
     Some(state) -> {
       state.right
       |> option.map(max)
