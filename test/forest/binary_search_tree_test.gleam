@@ -124,6 +124,12 @@ pub fn max_test() {
   |> should.equal(Ok(max_int()))
 }
 
+pub fn stress_tests_test() {
+  let numbers = list.range(0, 100_000)
+  let tree = bst.from_list(numbers, int.compare)
+  // Perform all operations in an efficient way
+}
+
 fn mixed_ints() -> List(Int) {
   [8, 2, 5, 7, 3, 9, 1, 6, 10, 4]
 }
@@ -147,10 +153,4 @@ fn max_int() -> Int {
     |> list.reduce(int.max)
 
   max_int
-}
-
-pub fn stress_tests_test() {
-  let numbers = list.range(0, 100_000)
-  let tree = bst.from_list(numbers, int.compare)
-  // Perform all operations in an efficient way
 }
