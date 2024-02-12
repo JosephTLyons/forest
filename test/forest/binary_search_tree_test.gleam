@@ -148,3 +148,8 @@ fn max_int() -> Int {
 
   max_int
 }
+
+pub fn stress_tests_test() {
+  let numbers = list.range(0, 100_000)
+  let tree = bst.from_list(numbers, int.compare)
+}
