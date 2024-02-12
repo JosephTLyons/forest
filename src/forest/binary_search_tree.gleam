@@ -1,7 +1,7 @@
-import gleam/option.{type Option, None, Some}
-import gleam/order
 import gleam/int
 import gleam/list
+import gleam/option
+import gleam/order
 
 // TODO
 // Finish methods
@@ -13,7 +13,11 @@ import gleam/list
 //     Impelemnt binary tree with a tree?
 
 pub opaque type NodeState(a) {
-  NodeState(value: a, left: Option(Node(a)), right: Option(Node(a)))
+  NodeState(
+    value: a,
+    left: option.Option(Node(a)),
+    right: option.Option(Node(a)),
+  )
 }
 
 pub opaque type Node(a) {
@@ -21,7 +25,7 @@ pub opaque type Node(a) {
 }
 
 pub fn new() -> Node(a) {
-  Node(state: None)
+  Node(state: option.None)
 }
 
 pub fn value(node: Node(a)) -> option.Option(a) {
@@ -35,37 +39,50 @@ pub fn insert(
   compare: fn(a, a) -> order.Order,
 ) -> Node(a) {
   case node.state {
-    Some(state) ->
+    option.Some(state) ->
       case compare(state.value, value) {
         order.Lt ->
-          Node(Some(
+          Node(option.Some(
             NodeState(
               ..state,
-              right: Some(build_subtree(state.right, value, compare)),
+              right: option.Some(build_subtree(state.right, value, compare)),
             ),
           ))
         order.Gt ->
-          Node(Some(
+          Node(option.Some(
             NodeState(
               ..state,
-              left: Some(build_subtree(state.left, value, compare)),
+              left: option.Some(build_subtree(state.left, value, compare)),
             ),
           ))
         order.Eq -> node
       }
-    None ->
-      Node(Some(NodeState(value: value, left: option.None, right: option.None)))
+    option.None ->
+      Node(
+        option.Some(NodeState(
+          value: value,
+          left: option.None,
+          right: option.None,
+        )),
+      )
   }
 }
 
 fn build_subtree(
-  node: Option(Node(a)),
+  node: option.Option(Node(a)),
   value: a,
   compare: fn(a, a) -> order.Order,
 ) -> Node(a) {
   case node {
-    Some(node) -> insert(node, value, compare)
-    None -> Node(Some(NodeState(value: value, left: None, right: None)))
+    option.Some(node) -> insert(node, value, compare)
+    option.None ->
+      Node(
+        option.Some(NodeState(
+          value: value,
+          left: option.None,
+          right: option.None,
+        )),
+      )
   }
 }
 
@@ -84,19 +101,19 @@ pub fn search(
   compare: fn(a, a) -> order.Order,
 ) -> option.Option(Node(a)) {
   case node.state {
-    Some(state) ->
+    option.Some(state) ->
       case compare(state.value, value) {
         order.Lt ->
           state.right
           |> option.map(fn(node) { search(node, value, compare) })
-          |> option.unwrap(None)
+          |> option.unwrap(option.None)
         order.Gt ->
           state.left
           |> option.map(fn(node) { search(node, value, compare) })
-          |> option.unwrap(None)
-        order.Eq -> Some(node)
+          |> option.unwrap(option.None)
+        order.Eq -> option.Some(node)
       }
-    None -> None
+    option.None -> option.None
   }
 }
 
@@ -124,7 +141,7 @@ pub fn contains(
 
 pub fn height(node: Node(a)) -> Int {
   case node.state {
-    Some(state) -> {
+    option.Some(state) -> {
       let left =
         state.left
         |> option.map(height)
@@ -137,7 +154,7 @@ pub fn height(node: Node(a)) -> Int {
 
       1 + int.max(left, right)
     }
-    None -> -1
+    option.None -> -1
   }
 }
 
@@ -147,7 +164,7 @@ pub fn height(node: Node(a)) -> Int {
 
 pub fn size(node: Node(a)) -> Int {
   case node.state {
-    Some(state) -> {
+    option.Some(state) -> {
       let left =
         state.left
         |> option.map(size)
@@ -160,7 +177,7 @@ pub fn size(node: Node(a)) -> Int {
 
       1 + left + right
     }
-    None -> 0
+    option.None -> 0
   }
 }
 
@@ -186,7 +203,7 @@ fn do_from_list(
 
 pub fn to_list(node: Node(a)) -> List(a) {
   case node.state {
-    Some(state) -> {
+    option.Some(state) -> {
       let left =
         state.left
         |> option.map(to_list)
@@ -200,7 +217,7 @@ pub fn to_list(node: Node(a)) -> List(a) {
       [left, [state.value], right]
       |> list.flatten()
     }
-    None -> []
+    option.None -> []
   }
 }
 
@@ -209,7 +226,7 @@ pub fn min(node: Node(a)) -> option.Option(a) {
   |> option.map(fn(state) {
     state.left
     |> option.map(min)
-    |> option.unwrap(Some(state.value))
+    |> option.unwrap(option.Some(state.value))
   })
   |> option.flatten()
 }
@@ -219,7 +236,7 @@ pub fn max(node: Node(a)) -> option.Option(a) {
   |> option.map(fn(state) {
     state.right
     |> option.map(max)
-    |> option.unwrap(Some(state.value))
+    |> option.unwrap(option.Some(state.value))
   })
   |> option.flatten()
 }
