@@ -60,6 +60,20 @@ pub fn contains_test() {
   |> should.equal(False)
 }
 
+pub fn height_test() {
+  bst.new()
+  |> bst.height()
+  |> should.equal(-1)
+
+  bst.from_list([1, 0, 2], int.compare)
+  |> bst.height()
+  |> should.equal(1)
+
+  bst.from_list(mixed_ints(), int.compare)
+  |> bst.height()
+  |> should.equal(5)
+}
+
 pub fn size_test() {
   bst.new()
   |> bst.size()

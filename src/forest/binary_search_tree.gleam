@@ -1,5 +1,6 @@
 import gleam/option.{type Option, None, Some}
 import gleam/order
+import gleam/int
 import gleam/list
 
 // TODO
@@ -100,9 +101,24 @@ pub fn contains(
 //   todo
 // }
 
-// pub fn height() -> a {
-//   0
-// }
+pub fn height(tree: Node(a)) -> Int {
+  case tree.state {
+    Some(state) -> {
+      let left =
+        state.left
+        |> option.map(height)
+        |> option.unwrap(-1)
+
+      let right =
+        state.right
+        |> option.map(height)
+        |> option.unwrap(-1)
+
+      1 + int.max(left, right)
+    }
+    None -> -1
+  }
+}
 
 // pub fn depth() -> a {
 //   0
