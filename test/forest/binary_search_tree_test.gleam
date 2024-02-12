@@ -50,11 +50,11 @@ pub fn contains_test() {
   |> list.all(fn(_) { True })
 
   tree
-  |> bst.contains(0, int.compare)
+  |> bst.contains(min_int() - 1, int.compare)
   |> should.equal(False)
 
   tree
-  |> bst.contains(11, int.compare)
+  |> bst.contains(max_int() + 1, int.compare)
   |> should.equal(False)
 }
 
@@ -96,7 +96,7 @@ pub fn min_test() {
 
   bst.from_list(mixed_ints(), int.compare)
   |> bst.min()
-  |> should.equal(Ok(1))
+  |> should.equal(Ok(min_int()))
 }
 
 pub fn max_test() {
@@ -106,7 +106,7 @@ pub fn max_test() {
 
   bst.from_list(mixed_ints(), int.compare)
   |> bst.max()
-  |> should.equal(Ok(10))
+  |> should.equal(Ok(max_int()))
 }
 
 fn mixed_ints() -> List(Int) {
@@ -116,4 +116,20 @@ fn mixed_ints() -> List(Int) {
 fn sorted_ints() -> List(Int) {
   mixed_ints()
   |> list.sort(int.compare)
+}
+
+fn min_int() -> Int {
+  let assert Ok(min_int) =
+    mixed_ints()
+    |> list.reduce(int.min)
+
+  min_int
+}
+
+fn max_int() -> Int {
+  let assert Ok(max_int) =
+    mixed_ints()
+    |> list.reduce(int.max)
+
+  max_int
 }
