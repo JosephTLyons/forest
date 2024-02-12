@@ -1,4 +1,5 @@
 import gleam/int
+import gleam/iterator
 import gleam/list
 import gleeunit/should
 import forest/binary_search_tree as bst
@@ -45,11 +46,11 @@ pub fn contains_test() {
   let tree = bst.from_list(mixed_ints(), int.compare)
 
   mixed_ints()
-  |> list.map(fn(item) {
+  |> iterator.from_list()
+  |> iterator.all(fn(item) {
     tree
     |> bst.contains(item, int.compare)
   })
-  |> list.all(fn(_) { True })
 
   tree
   |> bst.contains(min_int() - 1, int.compare)
