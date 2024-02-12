@@ -7,6 +7,7 @@ import gleam/list
 // Finish methods
 //    use `set`'s interface
 // Order of api and tests
+// Do we really want to have to pass in a `compare` function into the public api?
 
 pub opaque type NodeState(a) {
   NodeState(value: a, left: Option(Node(a)), right: Option(Node(a)))
