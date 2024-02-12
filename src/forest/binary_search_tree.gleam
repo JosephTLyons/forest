@@ -1,37 +1,44 @@
-import gleam/int
 import gleam/option.{type Option, None, Some}
 import gleam/order
 import gleam/result
 import gleam/list
 
 // TODO
-// Make tree generic
 // Finish methods
 //    use `set`'s interface
 // Order of api and tests
 
-pub opaque type NodeState {
-  NodeState(value: Int, left: Option(Node), right: Option(Node))
+pub opaque type NodeState(a) {
+  NodeState(value: a, left: Option(Node(a)), right: Option(Node(a)))
 }
 
-pub opaque type Node {
-  Node(state: option.Option(NodeState))
+pub opaque type Node(a) {
+  Node(state: option.Option(NodeState(a)))
 }
 
-pub fn new() -> Node {
+pub fn new() -> Node(a) {
   Node(state: None)
 }
 
-pub fn insert(tree: Node, value: Int) -> Node {
+pub fn insert(
+  tree: Node(a),
+  value: a,
+  compare: fn(a, a) -> order.Order,
+) -> Node(a) {
   case tree.state {
     Some(state) ->
-      case int.compare(state.value, value) {
+      case compare(state.value, value) {
         order.Lt ->
           Node(Some(
-            NodeState(..state, right: update_subtree(state.right, value)),
+            NodeState(
+              ..state,
+              right: update_subtree(state.right, value, compare),
+            ),
           ))
         order.Gt ->
-          Node(Some(NodeState(..state, left: update_subtree(state.left, value))))
+          Node(Some(
+            NodeState(..state, left: update_subtree(state.left, value, compare)),
+          ))
         order.Eq -> tree
       }
     None ->
@@ -39,28 +46,36 @@ pub fn insert(tree: Node, value: Int) -> Node {
   }
 }
 
-fn update_subtree(subtree: Option(Node), value: Int) -> Option(Node) {
+fn update_subtree(
+  subtree: Option(Node(a)),
+  value: a,
+  compare: fn(a, a) -> order.Order,
+) -> Option(Node(a)) {
   case subtree {
-    Some(node) -> Some(insert(node, value))
+    Some(node) -> Some(insert(node, value, compare))
     None -> Some(Node(Some(NodeState(value: value, left: None, right: None))))
   }
 }
 
-// pub fn remove(tree: Node, value: Int) -> Node {
+// pub fn remove(tree: Node, value: a) -> Node {
 //   todo
 // }
 
-pub fn contains(tree: Node, value: Int) -> Bool {
+pub fn contains(
+  tree: Node(a),
+  value: a,
+  compare: fn(a, a) -> order.Order,
+) -> Bool {
   case tree.state {
     Some(state) ->
-      case int.compare(state.value, value) {
+      case compare(state.value, value) {
         order.Lt ->
           state.right
-          |> option.map(fn(node) { contains(node, value) })
+          |> option.map(fn(node) { contains(node, value, compare) })
           |> option.unwrap(False)
         order.Gt ->
           state.left
-          |> option.map(fn(node) { contains(node, value) })
+          |> option.map(fn(node) { contains(node, value, compare) })
           |> option.unwrap(False)
         order.Eq -> True
       }
@@ -68,7 +83,7 @@ pub fn contains(tree: Node, value: Int) -> Bool {
   }
 }
 
-// pub fn path(tree: Node, value: Int) -> Result(List(Int), Nil) {
+// pub fn path(tree: Node, value: a) -> Result(List(a), Nil) {
 //   Error(Nil)
 // }
 
@@ -80,15 +95,15 @@ pub fn contains(tree: Node, value: Int) -> Bool {
 //   todo
 // }
 
-// pub fn height() -> Int {
+// pub fn height() -> a {
 //   0
 // }
 
-// pub fn depth() -> Int {
+// pub fn depth() -> a {
 //   0
 // }
 
-// pub fn count(tree: Node) -> Int {
+// pub fn count(tree: Node) -> a {
 //   io.debug(tree)
 //   let left = case tree.left {
 //     Some(node) -> count(node)
@@ -108,7 +123,7 @@ pub fn contains(tree: Node, value: Int) -> Bool {
 //   1 + left + right
 // }
 
-pub fn to_list(tree: Node) -> List(Int) {
+pub fn to_list(tree: Node(a)) -> List(a) {
   case tree.state {
     Some(state) -> {
       let left =
@@ -128,14 +143,14 @@ pub fn to_list(tree: Node) -> List(Int) {
   }
 }
 // // Might not make sense - could just call insert in a loop
-// pub fn from_list() -> List(Int) {
+// pub fn from_list() -> List(a) {
 //   []
 // }
 
-// pub fn min() -> Int {
+// pub fn min() -> a {
 //   0
 // }
 
-// pub fn max() -> Int {
+// pub fn max() -> a {
 //   0
 // }

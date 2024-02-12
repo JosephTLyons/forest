@@ -1,3 +1,4 @@
+import gleam/int
 import gleam/list
 import gleam/option
 import gleeunit/should
@@ -12,7 +13,7 @@ pub fn insert_test() {
 
   let tree =
     tree
-    |> bst.insert(1)
+    |> bst.insert(1, int.compare)
 
   tree
   |> bst.to_list()
@@ -20,7 +21,7 @@ pub fn insert_test() {
 
   let tree =
     tree
-    |> bst.insert(0)
+    |> bst.insert(0, int.compare)
 
   tree
   |> bst.to_list()
@@ -28,7 +29,7 @@ pub fn insert_test() {
 
   let tree =
     tree
-    |> bst.insert(2)
+    |> bst.insert(2, int.compare)
 
   tree
   |> bst.to_list()
@@ -39,23 +40,23 @@ pub fn contains_test() {
   let tree = bst.new()
 
   tree
-  |> bst.contains(1)
+  |> bst.contains(1, int.compare)
   |> should.equal(False)
 
   let tree =
     tree
-    |> bst.insert(1)
+    |> bst.insert(1, int.compare)
 
   tree
-  |> bst.contains(1)
+  |> bst.contains(1, int.compare)
   |> should.equal(True)
 
   tree
-  |> bst.contains(0)
+  |> bst.contains(0, int.compare)
   |> should.equal(False)
 
   tree
-  |> bst.contains(2)
+  |> bst.contains(2, int.compare)
   |> should.equal(False)
 }
 
@@ -75,9 +76,9 @@ pub fn contains_test() {
 pub fn to_list_test() {
   let items =
     bst.new()
-    |> bst.insert(1)
-    |> bst.insert(0)
-    |> bst.insert(2)
+    |> bst.insert(1, int.compare)
+    |> bst.insert(0, int.compare)
+    |> bst.insert(2, int.compare)
     |> bst.to_list()
 
   items
