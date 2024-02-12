@@ -5,6 +5,22 @@ import gleam/option
 import gleeunit/should
 import forest/binary_search_tree as bst
 
+pub fn value_test() {
+  let tree = bst.new()
+
+  tree
+  |> bst.value()
+  |> should.equal(option.None)
+
+  let tree =
+    tree
+    |> bst.insert(1, int.compare)
+
+  tree
+  |> bst.value()
+  |> should.equal(option.Some(1))
+}
+
 pub fn insert_test() {
   let tree = bst.new()
 

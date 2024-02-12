@@ -24,6 +24,11 @@ pub fn new() -> Node(a) {
   Node(state: None)
 }
 
+pub fn value(node: Node(a)) -> option.Option(a) {
+  node.state
+  |> option.map(fn(state) { state.value })
+}
+
 pub fn insert(
   node: Node(a),
   value: a,
