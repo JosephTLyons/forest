@@ -92,6 +92,20 @@ pub fn size_test() {
   |> should.equal(3)
 }
 
+pub fn from_list_test() {
+  let tree = bst.from_list([], int.compare)
+
+  tree
+  |> bst.to_list()
+  |> should.equal([])
+
+  let tree = bst.from_list([5, 4, 3, 2, 1], int.compare)
+
+  tree
+  |> bst.to_list()
+  |> should.equal([1, 2, 3, 4, 5])
+}
+
 pub fn to_list_test() {
   let tree = bst.new()
 

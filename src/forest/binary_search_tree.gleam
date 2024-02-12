@@ -123,6 +123,26 @@ pub fn size(tree: Node(a)) -> Int {
   }
 }
 
+pub fn from_list(items: List(a), compare: fn(a, a) -> order.Order) -> Node(a) {
+  let tree = new()
+  case items {
+    [] -> tree
+    items -> do_from_list(tree, items, compare)
+  }
+}
+
+fn do_from_list(
+  tree: Node(a),
+  items: List(a),
+  compare: fn(a, a) -> order.Order,
+) -> Node(a) {
+  case items {
+    [] -> tree
+    [first, ..items] ->
+      do_from_list(insert(tree, first, compare), items, compare)
+  }
+}
+
 pub fn to_list(tree: Node(a)) -> List(a) {
   case tree.state {
     Some(state) -> {
@@ -142,11 +162,6 @@ pub fn to_list(tree: Node(a)) -> List(a) {
     None -> []
   }
 }
-
-// // Might not make sense - could just call insert in a loop
-// pub fn from_list() -> List(a) {
-//   []
-// }
 
 pub fn min(tree: Node(a)) -> Result(a, Nil) {
   case tree.state {
