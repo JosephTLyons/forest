@@ -127,8 +127,8 @@ pub fn contains(
   |> option.is_some()
 }
 
-// pub fn path(node: Node, value: a) -> Result(List(a), Nil) {
-//   Error(Nil)
+// pub fn path(node: Node, value: a) -> -> option.Option(a)  {
+//   None
 // }
 
 // pub fn debug_print(node: Node) {
