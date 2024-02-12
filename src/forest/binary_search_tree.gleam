@@ -142,15 +142,32 @@ pub fn to_list(tree: Node(a)) -> List(a) {
     None -> []
   }
 }
+
 // // Might not make sense - could just call insert in a loop
 // pub fn from_list() -> List(a) {
 //   []
 // }
 
-// pub fn min() -> a {
-//   0
-// }
+pub fn min(tree: Node(a)) -> Result(a, Nil) {
+  case tree.state {
+    Some(state) -> {
+      case state.left {
+        Some(node) -> min(node)
+        None -> Ok(state.value)
+      }
+    }
+    None -> Error(Nil)
+  }
+}
 
-// pub fn max() -> a {
-//   0
-// }
+pub fn max(tree: Node(a)) -> Result(a, Nil) {
+  case tree.state {
+    Some(state) -> {
+      case state.right {
+        Some(node) -> max(node)
+        None -> Ok(state.value)
+      }
+    }
+    None -> Error(Nil)
+  }
+}

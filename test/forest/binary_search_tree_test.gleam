@@ -93,13 +93,55 @@ pub fn size_test() {
 }
 
 pub fn to_list_test() {
-  let items =
-    bst.new()
+  let tree = bst.new()
+
+  tree
+  |> bst.to_list()
+  |> should.equal([])
+
+  let tree =
+    tree
     |> bst.insert(1, int.compare)
     |> bst.insert(0, int.compare)
     |> bst.insert(2, int.compare)
-    |> bst.to_list()
 
-  items
+  tree
+  |> bst.to_list
   |> should.equal([0, 1, 2])
+}
+
+pub fn min_test() {
+  let tree = bst.new()
+
+  tree
+  |> bst.min()
+  |> should.equal(Error(Nil))
+
+  let tree =
+    tree
+    |> bst.insert(1, int.compare)
+    |> bst.insert(0, int.compare)
+    |> bst.insert(2, int.compare)
+
+  tree
+  |> bst.min()
+  |> should.equal(Ok(0))
+}
+
+pub fn max_test() {
+  let tree = bst.new()
+
+  tree
+  |> bst.max()
+  |> should.equal(Error(Nil))
+
+  let tree =
+    tree
+    |> bst.insert(1, int.compare)
+    |> bst.insert(0, int.compare)
+    |> bst.insert(2, int.compare)
+
+  tree
+  |> bst.max()
+  |> should.equal(Ok(2))
 }
