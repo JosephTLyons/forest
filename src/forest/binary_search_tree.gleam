@@ -166,10 +166,9 @@ pub fn to_list(tree: Node(a)) -> List(a) {
 pub fn min(tree: Node(a)) -> Result(a, Nil) {
   case tree.state {
     Some(state) -> {
-      case state.left {
-        Some(node) -> min(node)
-        None -> Ok(state.value)
-      }
+      state.left
+      |> option.map(min)
+      |> option.unwrap(Ok(state.value))
     }
     None -> Error(Nil)
   }
@@ -178,10 +177,9 @@ pub fn min(tree: Node(a)) -> Result(a, Nil) {
 pub fn max(tree: Node(a)) -> Result(a, Nil) {
   case tree.state {
     Some(state) -> {
-      case state.right {
-        Some(node) -> max(node)
-        None -> Ok(state.value)
-      }
+      state.right
+      |> option.map(max)
+      |> option.unwrap(Ok(state.value))
     }
     None -> Error(Nil)
   }
