@@ -144,6 +144,8 @@ pub fn size(tree: Node(a)) -> Int {
 }
 
 pub fn from_list(items: List(a), compare: fn(a, a) -> order.Order) -> Node(a) {
+  // Reorder list for balanced insertion
+
   let tree = new()
   case items {
     [] -> tree
