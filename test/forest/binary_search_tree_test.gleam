@@ -129,7 +129,7 @@ pub fn min_test() {
   |> bst.min()
   |> should.equal(Error(Nil))
 
-  let items = [5, 10, 1, 4, 8, 9, 2, 6, 3, 5, 7]
+  let items = [10, 1, 4, 8, 9, 2, 6, 3, 5, 7]
   let tree = bst.from_list(items, int.compare)
 
   tree
@@ -144,7 +144,7 @@ pub fn max_test() {
   |> bst.max()
   |> should.equal(Error(Nil))
 
-  let items = [5, 10, 1, 4, 8, 9, 2, 6, 3, 5, 7]
+  let items = [10, 1, 4, 8, 9, 2, 6, 3, 5, 7]
   let tree = bst.from_list(items, int.compare)
 
   tree
