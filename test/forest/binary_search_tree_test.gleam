@@ -29,6 +29,8 @@ pub fn insert_test() {
   let tree =
     tree
     |> bst.insert(2, int.compare)
+    // Ensure duplicates aren't added
+    |> bst.insert(2, int.compare)
 
   tree
   |> bst.to_list()
