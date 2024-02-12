@@ -129,15 +129,12 @@ pub fn min_test() {
   |> bst.min()
   |> should.equal(Error(Nil))
 
-  let tree =
-    tree
-    |> bst.insert(1, int.compare)
-    |> bst.insert(0, int.compare)
-    |> bst.insert(2, int.compare)
+  let items = [5, 10, 1, 4, 8, 9, 2, 6, 3, 5, 7]
+  let tree = bst.from_list(items, int.compare)
 
   tree
   |> bst.min()
-  |> should.equal(Ok(0))
+  |> should.equal(Ok(1))
 }
 
 pub fn max_test() {
@@ -147,13 +144,10 @@ pub fn max_test() {
   |> bst.max()
   |> should.equal(Error(Nil))
 
-  let tree =
-    tree
-    |> bst.insert(1, int.compare)
-    |> bst.insert(0, int.compare)
-    |> bst.insert(2, int.compare)
+  let items = [5, 10, 1, 4, 8, 9, 2, 6, 3, 5, 7]
+  let tree = bst.from_list(items, int.compare)
 
   tree
   |> bst.max()
-  |> should.equal(Ok(2))
+  |> should.equal(Ok(10))
 }
