@@ -1,6 +1,7 @@
 import gleam/int
 import gleam/iterator
 import gleam/list
+import gleam/option
 import gleeunit/should
 import forest/binary_search_tree as bst
 
@@ -36,6 +37,30 @@ pub fn insert_test() {
   tree
   |> bst.to_list()
   |> should.equal([0, 1, 2])
+}
+
+pub fn search_test() {
+  bst.new()
+  |> bst.search(1, int.compare)
+  |> should.equal(option.None)
+
+  let tree = bst.from_list(mixed_ints(), int.compare)
+
+  mixed_ints()
+  |> iterator.from_list()
+  |> iterator.all(fn(item) {
+    tree
+    |> bst.search(item, int.compare)
+    |> option.is_some()
+  })
+
+  tree
+  |> bst.search(min_int() - 1, int.compare)
+  |> should.equal(option.None)
+
+  tree
+  |> bst.search(max_int() + 1, int.compare)
+  |> should.equal(option.None)
 }
 
 pub fn contains_test() {

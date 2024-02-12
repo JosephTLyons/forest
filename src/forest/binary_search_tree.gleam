@@ -73,26 +73,36 @@ fn build_subtree(
 //   }
 // }
 
-pub fn contains(
+pub fn search(
   tree: Node(a),
   value: a,
   compare: fn(a, a) -> order.Order,
-) -> Bool {
+) -> option.Option(Node(a)) {
   case tree.state {
     Some(state) ->
       case compare(state.value, value) {
         order.Lt ->
           state.right
-          |> option.map(fn(node) { contains(node, value, compare) })
-          |> option.unwrap(False)
+          |> option.map(fn(node) { search(node, value, compare) })
+          |> option.unwrap(None)
         order.Gt ->
           state.left
-          |> option.map(fn(node) { contains(node, value, compare) })
-          |> option.unwrap(False)
-        order.Eq -> True
+          |> option.map(fn(node) { search(node, value, compare) })
+          |> option.unwrap(None)
+        order.Eq -> Some(tree)
       }
-    None -> False
+    None -> None
   }
+}
+
+pub fn contains(
+  tree: Node(a),
+  value: a,
+  compare: fn(a, a) -> order.Order,
+) -> Bool {
+  tree
+  |> search(value, compare)
+  |> option.is_some()
 }
 
 // pub fn path(tree: Node, value: a) -> Result(List(a), Nil) {
