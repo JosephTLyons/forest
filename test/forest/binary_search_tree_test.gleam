@@ -105,17 +105,31 @@ pub fn contains_test() {
 }
 
 pub fn height_test() {
-  bst.new()
-  |> bst.height()
-  |> should.equal(-1)
+  let tree = bst.new()
 
-  bst.from_list([1, 0, 2], int.compare)
+  tree
+  |> bst.height()
+  |> should.equal(0)
+
+  let tree =
+    tree
+    |> bst.insert(0, int.compare)
+
+  tree
   |> bst.height()
   |> should.equal(1)
 
+  let tree =
+    tree
+    |> bst.insert(2, int.compare)
+
+  tree
+  |> bst.height()
+  |> should.equal(2)
+
   bst.from_list(mixed_ints(), int.compare)
   |> bst.height()
-  |> should.equal(4)
+  |> should.equal(5)
 }
 
 pub fn size_test() {

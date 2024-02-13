@@ -145,16 +145,16 @@ pub fn height(node: Node(a)) -> Int {
       let left =
         state.left
         |> option.map(height)
-        |> option.unwrap(-1)
+        |> option.unwrap(0)
 
       let right =
         state.right
         |> option.map(height)
-        |> option.unwrap(-1)
+        |> option.unwrap(0)
 
       1 + int.max(left, right)
     }
-    option.None -> -1
+    option.None -> 0
   }
 }
 
