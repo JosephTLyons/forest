@@ -69,6 +69,7 @@ pub fn search_test() {
     |> bst.search(item, int.compare)
     |> option.is_some()
   })
+  |> should.equal(True)
 
   tree
   |> bst.search(min_int() - 1, int.compare)
@@ -92,6 +93,7 @@ pub fn contains_test() {
     tree
     |> bst.contains(item, int.compare)
   })
+  |> should.equal(True)
 
   tree
   |> bst.contains(min_int() - 1, int.compare)
